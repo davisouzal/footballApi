@@ -4,7 +4,7 @@ import { getTeamByName } from '../controllers/teamController';
 
 const teamRouter:Router = Router();
 
-teamRouter.get('/:teamName', getTeamByName);
+teamRouter.get('/', getTeamByName);
 
 export default teamRouter;
 

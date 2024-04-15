@@ -1,4 +1,3 @@
-// chamada da api e utils dela
 import { config } from 'dotenv';
 import { TeamType } from '../types/teamType';
 
@@ -6,20 +5,18 @@ config();
 const API_TOKEN:string = process.env.API_TOKEN ?? '';
 const footballUrl:string = 'http://api.football-data.org/v4';
 
-export const getTeams = async (teamName:string):Promise<number> => {
-    //precisa de lógica para filtrar com o offset, já que não mostra tudo de uma vez e então se não houver aquele time naquela faixa de ids, ele adiciona 50 ao offset e tenta novamente
+export const getTeams = async ():Promise<TeamType[]> => {
     const responseTeams = await fetch(`${footballUrl}/teams`, {
         method: 'GET',
         headers: {
         'X-Auth-Token': API_TOKEN,
         },
-    });
+    })
+    .then((response) => response.json());
+
+    const teams = responseTeams.teams;
     
-    // condicao a ser definida
-    if(teamName === 'condicao'){
-        return -1;
-    }
-    return 103
+    return (teams);
 };
 
 export const getTeamById = async (id:number):Promise<TeamType> => {
@@ -28,6 +25,8 @@ export const getTeamById = async (id:number):Promise<TeamType> => {
         headers: {
         'X-Auth-Token': API_TOKEN,
         },
-    });
-    return responseTeams.json();
+    })
+    .then((response) => response.json());
+
+    return responseTeams;
 };
