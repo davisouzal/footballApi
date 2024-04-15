@@ -1,12 +1,13 @@
 import express, { NextFunction, Response, Request, Express } from 'express';
-import { getTeamByName } from './utils/footballUtils';
-// import teamRouter from './api/controllers/teamRouter';
+import { getTeamById, getTeams } from './utils/footballUtils';
+import teamRouter from './api/routers/teamRouter';
 
-const app = express();
+const app:Express = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const response = getTeamByName('real madrid');
+// const response = getTeamById(101);
+const response = getTeams('real madrid');
 
 response.then((data) => {
     console.log(data);
@@ -22,6 +23,6 @@ app.use((request: Request, response: Response, nextFunction: NextFunction) => {
     nextFunction();
 });
 
-// app.use('/api', teamRouter);
+app.use('/api/equipe', teamRouter);
 
 export default app;
