@@ -1,3 +1,3 @@
 export default interface IMessage {
-    message: string;
+    message: string | string[];
 }
