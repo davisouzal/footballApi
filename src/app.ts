@@ -1,6 +1,7 @@
 import express, { NextFunction, Response, Request, Express } from 'express';
 import playersRouter from './api/players/players.routes';
 import errorHandler from './api/middlewares/errorHandler';
+import notFoundHandler from './api/middlewares/notFoundHandler';
 
 const app:Express = express();
 app.use(express.json());
@@ -20,6 +21,7 @@ const routes = [playersRouter]
 
 app.use('/api/v1', ...routes)
 
+app.use(notFoundHandler)
 app.use(errorHandler)
 
 export default app;
