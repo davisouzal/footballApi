@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { PlayerObject, PlayerWithIdObject } from "./players.model";
+import { PlayerObject } from "./players.model";
 import { Player } from "@prisma/client";
 import idObject from "../../utils/modelsUtils";
 import playersService from "./players.service";
@@ -41,9 +41,7 @@ const createPlayer = async (req: Request, res: Response<Player>, next: NextFunct
 
 const updatePlayer = async (req: Request, res: Response<Player>, next: NextFunction) => {
     try {
-        const playerRequest = { ...req.body, id: req.params.id };
-        const validateResult = PlayerWithIdObject.parse(playerRequest);
-        const updateResult = await playersService.updateOne(playerRequest.id, validateResult);
+        const updateResult = await playersService.updateOne(req.params.id, req.body);
         res.status(200).send(updateResult);
     } catch (error) {
         next(error);
