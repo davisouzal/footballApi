@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-import { PlayerSchema } from "./players.model";
 import { Player } from "@prisma/client";
 import { IdType } from "../../../utils/modelsUtils";
 import playersService from "./players.service";

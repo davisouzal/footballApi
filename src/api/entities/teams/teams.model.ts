@@ -1,2 +1,7 @@
+import { z } from "zod";
 
-// const teamSchema = new Schema({
+export const TeamSchema = z.object({
+    name: z.string(),
+})
+
+export type TeamType = z.infer<typeof TeamSchema>;

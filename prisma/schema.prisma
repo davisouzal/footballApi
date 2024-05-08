@@ -16,7 +16,7 @@ datasource db {
 model Player {
   id        String   @id @default(cuid())
   name      String
-  dateOfBirth String
+  dateOfBirth DateTime
   teamId    String
   team      Team     @relation(fields: [teamId], references: [id])
   createdAt DateTime @default(now())
