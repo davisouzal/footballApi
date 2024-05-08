@@ -1,61 +1,61 @@
-import { Team } from "@prisma/client";
+import { User } from "@prisma/client";
 import { Request, Response, NextFunction } from "express";
-import teamsService from "./teams.service";
+import usersService from "./users.service";
 import { IdType } from "@utils/modelsUtils";
 import objectNotFoundError from "@utils/exceptions/objectNotFoundError";
 import { IDeleteResponse } from "@interfaces/IDeleteResponse";
 
-const getTeams = async (
+const getUsers = async (
     req: Request,
-    res: Response<Team[]>,
+    res: Response<User[]>,
     next: NextFunction
     ) => {
     try {
-        const teams = await teamsService.findAll();
-        res.status(200).send(teams);
-    } catch (error) {
-        next(error);
-    }
-};
-
-const getTeam = async (
-    req: Request<IdType>,
-    res: Response<Team>,
-    next: NextFunction
-    ) => {
-    try {
-        const team = await teamsService.findOne(req.params.id);
-        if (!team) {
-            res.status(404);
-            const error = new objectNotFoundError("Team", req.params.id);
-            next(error);
-        }
-        res.status(200).send(team as Team);
+       const users = await usersService.findAll();
+         res.status(200).send(users);
     } catch (error) {
         next(error);
     }
 }
 
-const createTeam = async (
+const getUser = async (
+    req: Request<IdType>,
+    res: Response<User>,
+    next: NextFunction
+    ) => {
+    try {
+        const user = await usersService.findOne(req.params.id);
+        if (!user) {
+            res.status(404);
+            const error = new objectNotFoundError("User", req.params.id);
+            next(error);
+        }
+        res.status(200).send(user as User);
+    } catch (error) {
+        next(error);
+    }
+}
+
+const createUser = async (
     req: Request,
-    res: Response<Team>,
+    res: Response<User>,
     next: NextFunction
 ) => {
     try {
-        const createResult = await teamsService.createOne(req.body);
+        const createResult = await usersService.createOne(req.body);
         res.status(201).send(createResult);
     } catch (error) {
         next(error);
     }
 };
 
-const updateTeam = async (
+const updateUser = async (
     req: Request<IdType>,
-    res: Response<Team>,
+    res: Response<User>,
     next: NextFunction
 ) => {
     try {
-        const updateResult = await teamsService.updateOne(
+        const updateResult = await usersService.updateOne(
             req.params.id,
             req.body
         );
@@ -65,25 +65,25 @@ const updateTeam = async (
     }
 };
 
-const deleteTeam = async (
+const deleteUser = async (
     req: Request<IdType>,
-    res: Response<IDeleteResponse<Team>>,
+    res: Response<IDeleteResponse<User>>,
     next: NextFunction
 ) => {
     try {
-        const deleteResult = await teamsService.deleteOne(req.params.id);
+        const deleteResult = await usersService.deleteOne(req.params.id);
         res.status(200).send(deleteResult);
     } catch (error) {
         next(error);
     }
 };
 
-const teamsController = {
-    getTeams,
-    getTeam,
-    createTeam,
-    updateTeam,
-    deleteTeam,
+const usersController = {
+    getUsers,
+    getUser,
+    createUser,
+    updateUser,
+    deleteUser,
 };
 
-export default teamsController;
+export default usersController;
