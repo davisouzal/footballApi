@@ -1,7 +1,8 @@
 import express, { NextFunction, Response, Request, Express } from "express";
-import playersRouter from "./api/players/players.routes";
-import errorHandler from "./api/middlewares/errorHandlers/generalErrorHandler";
-import notFoundHandler from "./api/middlewares/notFoundHandler";
+import errorHandler from "@middlewares/errorHandlers/generalErrorHandler";
+import notFoundHandler from "@middlewares/notFoundHandler";
+import routes from "@api/routes";
+
 
 const app: Express = express();
 app.use(express.json());
@@ -16,8 +17,6 @@ app.use((request: Request, response: Response, next: NextFunction) => {
   );
   next();
 });
-
-const routes = [playersRouter];
 
 app.use("/api/v1", ...routes);
 
