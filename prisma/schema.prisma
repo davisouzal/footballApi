@@ -24,8 +24,22 @@ model User {
   name      String
   password  String
   role      UserRole
+  addressId String
+  address   Address  @relation(fields: [addressId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Address {
+  id        String   @id @default(cuid())
+  street    String
+  city      String
+  state     String
+  zip       String
+  users     User[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
 }
 
 model Player {
