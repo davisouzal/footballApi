@@ -1,19 +1,15 @@
-import { ZodError } from 'zod';
-import { Request, Response } from 'express';
-import IErrorResponse from '../../../interfaces/IErrorResponse';
+import { ZodError } from "zod";
 
-const zodErrorHandler = (err: ZodError, req: Request, res: Response<IErrorResponse>) => {
-    res.status(422);
-    res.json({
-        message: 'Validation error',
-        errors: err.errors.map((error) => {
-            return {
-                field: error.path.join('.'),
-                message: error.message,
-            };
-        }),
-    });
-    return;
-}
+const zodErrorHandler = (err: ZodError) => {
+  const statusCode = 422;
+  const errorResponse = {
+    message: "Validation error",
+    errors: err.errors.map((error) => ({
+      field: error.path.join("."),
+      message: error.message,
+    })),
+  };
+  return { statusCode, errorResponse };
+};
 
 export default zodErrorHandler;
