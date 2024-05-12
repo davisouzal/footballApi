@@ -41,8 +41,13 @@ const createTeam = async (
     res: Response<Team>,
     next: NextFunction
 ) => {
-    try {
-        const createResult = await teamsService.createOne(req.body);
+    try {        
+        const teamData = { 
+            ...req.body.name,
+            avatar: "avatar"
+        };
+
+        const createResult = await teamsService.createOne(teamData);
         res.status(201).send(createResult);
     } catch (error) {
         next(error);
