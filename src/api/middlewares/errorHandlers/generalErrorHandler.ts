@@ -7,6 +7,7 @@ import {
 } from "@prisma/client/runtime/library";
 import zodErrorHandler from "./zodErrorHandler";
 import prismaErrorHandler from "./prismaErrorHandler";
+import { MulterError } from "multer";
 
 const errorHandler = (
   error: Error,
@@ -31,7 +32,19 @@ const errorHandler = (
       prismaErrorHandler(error);
     statusCode = prismaStatusCode;
     errorResponse = prismaErrorResponse;
-  } 
+  } else if(error instanceof MulterError) {
+    statusCode = 422;
+    errorResponse = {
+      message: "File upload error",
+      errors: [
+        {
+          field: "file",
+          message: error.message,
+        },
+      ],
+    } as { message: string, errors: { field: string, message: string }[] };
+  }
+  console.error(error);
   res.status(statusCode).json(errorResponse);
   next();
 };

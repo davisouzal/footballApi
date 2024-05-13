@@ -19,18 +19,12 @@ teamsController.getTeam
 );
 
 teamsRouter.post("/teams",
-validateRequestHandler({
-    body: TeamSchema,
-}),
 uploadsHandler.single("avatar"),
 teamsController.createTeam
 );
 
 teamsRouter.put("/teams/:id",
-validateRequestHandler({
-    params: idObject,
-    body: TeamSchema,
-}),
+uploadsHandler.single("avatar"),
 teamsController.updateTeam
 );
 
