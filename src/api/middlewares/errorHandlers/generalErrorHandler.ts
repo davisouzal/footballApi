@@ -8,6 +8,7 @@ import {
 import zodErrorHandler from "./zodErrorHandler";
 import prismaErrorHandler from "./prismaErrorHandler";
 import { MulterError } from "multer";
+import multerErrorHandler from "./multerErrorHandler";
 
 const errorHandler = (
   error: Error,
@@ -33,16 +34,10 @@ const errorHandler = (
     statusCode = prismaStatusCode;
     errorResponse = prismaErrorResponse;
   } else if (error instanceof MulterError) {
-    statusCode = 422;
-    errorResponse = {
-      message: "File upload error",
-      errors: [
-        {
-          field: "file",
-          message: error.message,
-        },
-      ],
-    } as { message: string; errors: { field: string; message: string }[] };
+    const { statusCode: multerStatusCode, errorResponse: multerErrorResponse } =
+      multerErrorHandler(error);
+    statusCode = multerStatusCode;
+    errorResponse = multerErrorResponse;
   }
   res.status(statusCode).json(errorResponse);
   next();

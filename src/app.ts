@@ -5,7 +5,6 @@ import routes from "@api/routes";
 import accountRoutes from "@api/usecases/account/account.routes";
 import authenticationHandler from "@api/middlewares/authenticationHandler";
 
-
 const app: Express = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
