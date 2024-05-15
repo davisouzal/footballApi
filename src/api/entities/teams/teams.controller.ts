@@ -44,12 +44,7 @@ const createTeam = async (
   next: NextFunction
 ) => {
   try {
-    const validateData = await TeamSchema.parseAsync(req.body);
-    const teamData = {
-      name: validateData.name,
-      avatar: `${req.file?.path}`,
-    };
-    const createResult = await teamsService.createOne(teamData);
+    const createResult = await teamsService.createOne(req.body);
     res.status(201).send(createResult);
   } catch (error) {
     next(error);
@@ -62,20 +57,13 @@ const updateTeam = async (
   next: NextFunction
 ) => {
   try {
-    const validateData = await TeamSchema.parseAsync(req.body);
-    const validateId = await idObject.parseAsync(req.params);
-    const possibleTeam = await teamsService.findOne(validateId.id);
+    const possibleTeam = await teamsService.findOne(req.params.id);
     if (!possibleTeam) {
       res.status(404);
-      const error = new objectNotFoundError("Team", validateId.id);
+      const error = new objectNotFoundError("Team", req.params.id);
       next(error);
     }
-    const teamData = {
-      name: validateData.name,
-      avatar: `${req.file?.path}`,
-    };
-    const updateResult = await teamsService.updateOne(validateId.id, teamData);
-    possibleTeam && deleteFile(possibleTeam.avatar);
+    const updateResult = await teamsService.updateOne(req.params.id, req.body);
     res.status(200).send(updateResult);
   } catch (error) {
     next(error);

@@ -19,6 +19,7 @@ app.use((request: Request, response: Response, next: NextFunction) => {
 });
 
 app.use("/api/v1", ...routes);
+app.use("/api/v1/file/view", express.static("uploads"));
 
 app.use(notFoundHandler);
 app.use(errorHandler);

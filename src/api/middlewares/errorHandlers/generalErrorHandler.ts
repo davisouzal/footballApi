@@ -32,7 +32,7 @@ const errorHandler = (
       prismaErrorHandler(error);
     statusCode = prismaStatusCode;
     errorResponse = prismaErrorResponse;
-  } else if(error instanceof MulterError) {
+  } else if (error instanceof MulterError) {
     statusCode = 422;
     errorResponse = {
       message: "File upload error",
@@ -42,9 +42,8 @@ const errorHandler = (
           message: error.message,
         },
       ],
-    } as { message: string, errors: { field: string, message: string }[] };
+    } as { message: string; errors: { field: string; message: string }[] };
   }
-  console.error(error);
   res.status(statusCode).json(errorResponse);
   next();
 };
