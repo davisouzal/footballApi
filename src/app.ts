@@ -2,6 +2,8 @@ import express, { NextFunction, Response, Request, Express } from "express";
 import errorHandler from "@middlewares/errorHandlers/generalErrorHandler";
 import notFoundHandler from "@middlewares/notFoundHandler";
 import routes from "@api/routes";
+import accountRoutes from "@api/usecases/account/account.routes";
+import authenticationHandler from "@api/middlewares/authenticationHandler";
 
 
 const app: Express = express();
@@ -18,7 +20,8 @@ app.use((request: Request, response: Response, next: NextFunction) => {
   next();
 });
 
-app.use("/api/v1", ...routes);
+app.use("/api/v1", accountRoutes);
+app.use("/api/v1", authenticationHandler(), ...routes);
 app.use("/api/v1/file/view", express.static("uploads"));
 
 app.use(notFoundHandler);

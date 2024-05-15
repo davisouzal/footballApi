@@ -13,6 +13,10 @@ const findOne = async (userId: string) : Promise<User | null>=> {
   return user.findUnique({ where: { id: userId } });
 };
 
+const findByEmail = async (email: string) : Promise<User | null> => {
+    return user.findUnique({ where: { email } });
+}
+
 const createOne = async (userData: UserType) : Promise<User> => {
     return user.create({ data: userData });
 };
@@ -32,6 +36,7 @@ const deleteOne = async (userId: string) : Promise<IDeleteResponse<User>> => {
 const usersService = {
     findAll,
     findOne,
+    findByEmail,
     createOne,
     updateOne,
     deleteOne,

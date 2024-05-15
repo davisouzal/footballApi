@@ -23,7 +23,7 @@ model User {
   email     String   @unique
   name      String
   password  String
-  role      UserRole
+  role      UserRole @default(USER) 
   addressId String
   address   Address  @relation(fields: [addressId], references: [id])
   createdAt DateTime @default(now())
